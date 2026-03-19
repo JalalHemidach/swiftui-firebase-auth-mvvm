@@ -9,7 +9,9 @@ import SwiftUI
 import AuthenticationServices
 
 struct SignInWithApple: View {
+    
     var body: some View {
+        //MARK: SignIn With Apple Button
         SignInWithAppleButton(
             .signIn,
             onRequest: { request in
@@ -29,4 +31,8 @@ struct SignInWithApple: View {
         )
         .frame(maxWidth: .infinity, maxHeight: 50)
     }
+}
+
+#Preview {
+    SignInWithApple()
 }
