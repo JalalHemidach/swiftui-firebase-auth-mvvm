@@ -7,58 +7,71 @@
 
 import SwiftUI
 
+let kFirebaseColor: Color = Color(
+    red: 245 / 255,
+    green: 130 / 255,
+    blue: 13 / 255
+)
 struct AuthenticationView: View {
+    @State private var authenticationViewModel = AuthenticationViewModel()
+
     var body: some View {
         VStack {
             Spacer()
-            
-            Label("iOS App & Firebase", image: "")
+
+            //MARK: Screen Header
+            Label("iOS APP & FIREBASE", image: "")
                 .font(Font.title.bold())
-                .foregroundStyle(Color(red: 245/255, green: 130/255, blue: 13/255))
-            
+                .foregroundStyle(.primary)
+
             Spacer()
-            
+
+            //MARK: Screen Logos
             HStack {
                 Image("ios-logo")
                     .resizable()
                     .frame(width: 180, height: 180)
+                    .border(.primary)
 
                 Image("firebase-logo")
                     .resizable()
                     .frame(width: 180, height: 180)
+                    .border(.primary)
             }
-            
+
             Spacer()
             Spacer()
-        
-            Group {
-                HStack{
-                    Label("Email:     ", systemImage: "envelope")
-                    TextField("Enter your email..", text: .constant(""))
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-                
-                HStack {
-                    Label("Password:", systemImage: "lock")
-                    TextField("Enter your password..", text: .constant(""))
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
-            }
-            .foregroundStyle(Color.blue)
+
+            //MARK: SignIn With Apple Button
+            SignInWithApple()
+
+            //MARK: SignIn With Google Button
+            SignInWithGoogle()
             
-            Button {
-                //action
-            } label: {
-                Text("Login")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .padding(10)
-            
+            //MARK: Horizontal (- OR -) Separator
+            horizontalSeparatorView()
+
+            //MARK: Email & Password View
+            EmailAndPasswordView(
+                emailAndPasswordViewModel: authenticationViewModel
+                    .emailAndPasswordViewModel
+            )
+
             Spacer()
             Spacer()
         }
         .padding()
+    }
+
+    fileprivate func horizontalSeparatorView() -> some View {
+        return
+            HStack {
+                VStack { Divider() }
+                Text("OR")
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 10)
+                VStack { Divider() }
+            }
     }
 }
 
