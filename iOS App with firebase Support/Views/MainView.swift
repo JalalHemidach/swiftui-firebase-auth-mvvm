@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var viewModel = MainViewViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            List {
+                Text("Hello, World!")
+            }
+            .navigationTitle("Main View")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.signOut()
+                    } label: {
+                        Image(systemName: "rectangle.righthalf.inset.filled.arrow.right")
+                    }
+                }
+            }
+        }
     }
 }
 
