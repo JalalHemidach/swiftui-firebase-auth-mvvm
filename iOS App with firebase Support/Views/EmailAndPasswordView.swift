@@ -90,15 +90,6 @@ struct EmailAndPasswordView: View {
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
-                .onChange(
-                    of: emailAndPasswordViewModel.email,
-                    { _, _ in
-                        emailAndPasswordViewModel
-                            .shouldDisplayInvalidEmailOrPasswordWarningMessages =
-                            emailAndPasswordViewModel.isSignInScreen
-                            ? false : true
-                    }
-                )
 
                 //MARK: Email Error Message Field
                 emailErrorView()
@@ -165,15 +156,6 @@ struct EmailAndPasswordView: View {
                         .foregroundColor(.gray)
                     }
                 }
-                .onChange(
-                    of: type,
-                    { _, _ in
-                        emailAndPasswordViewModel
-                            .shouldDisplayInvalidEmailOrPasswordWarningMessages =
-                            emailAndPasswordViewModel.isSignInScreen
-                            ? false : true
-                    }
-                )
 
                 //MARK: Password Error Message Field
                 if emailAndPasswordEnumType == .password {

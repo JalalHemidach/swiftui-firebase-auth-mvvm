@@ -46,12 +46,13 @@ class EmailAndPasswordViewModel {
     }
                 
     //MARK: Email & Password Validation
-    func isValidEmailAndPassword(email: String, password: String) {
-        guard isValidEmailAndPassword(email: email, password: password) else {
-            shouldDisplayInvalidEmailOrPasswordWarningMessages = true
-            return
-        }
-    }
+//    func isValidEmailAndPassword(email: String, password: String) {
+//        guard isValidEmailAndPassword(email: email, password: password) else {
+//            shouldDisplayInvalidEmailOrPasswordWarningMessages = true
+//            return
+//        }
+//        shouldDisplayInvalidEmailOrPasswordWarningMessages = false
+//    }
     
     //MARK: Passwords Do NOT Match
     func passwordsDoNotMatch(password: String, confirmPassword: String) -> Bool {
