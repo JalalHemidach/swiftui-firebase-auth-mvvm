@@ -36,22 +36,16 @@ struct EmailAndPasswordView: View {
             //MARK: Email Field
             emailView(.email)
 
-            //MARK: Email Error Message Field
-            emailErrorView()
-
             //MARK: Password Field
-            PasswordView(
+            passwordView(
                 .password,
                 bindingType: $emailAndPasswordViewModel.password,
                 type: emailAndPasswordViewModel.password
             )
 
-            //MARK: Password Error Message Field
-            PasswordErrorView()
-
             //MARK: Confirm Password Field
-            if emailAndPasswordViewModel.isSignUpScreen {
-                ConfirmPasswordView(
+            if !emailAndPasswordViewModel.isSignInScreen {
+                confirmPasswordView(
                     .confirmPassword,
                     bindingType: $emailAndPasswordViewModel.confirmPassword,
                     type: emailAndPasswordViewModel.confirmPassword
@@ -59,12 +53,14 @@ struct EmailAndPasswordView: View {
             }
 
             //MARK: Email & Password Save Toggle Field
-            ToggleSwitchView()
+            if emailAndPasswordViewModel.isSignInScreen {
+                ToggleSwitchView()
+            }
 
             //MARK: LogIn/SignUp Button
-            LogInSignUpButtonView()
+            logInSignUpButtonView()
 
-            //MARK: //MARK: Go To SignUp Or Back To LogIn Field
+            //MARK: Go To SignUp / Back To LogIn Field
             goToSignUpOrBackToLogInView()
         }
         .foregroundStyle(.primary)
@@ -99,10 +95,13 @@ struct EmailAndPasswordView: View {
                     { _, _ in
                         emailAndPasswordViewModel
                             .shouldDisplayInvalidEmailOrPasswordWarningMessages =
-                            emailAndPasswordViewModel.isSignUpScreen
-                            ? true : false
+                            emailAndPasswordViewModel.isSignInScreen
+                            ? false : true
                     }
                 )
+
+                //MARK: Email Error Message Field
+                emailErrorView()
             }
             .padding(.bottom, 10)
     }
@@ -110,10 +109,12 @@ struct EmailAndPasswordView: View {
     //MARK: Email Error View
     fileprivate func emailErrorView() -> some View {
         return
-            VStack(alignment: .leading) {
-                if emailAndPasswordViewModel.isSignUpScreen,
+            Group {
+                if !emailAndPasswordViewModel.isSignInScreen,
                     !emailAndPasswordViewModel.email.isEmpty,
-                    !emailAndPasswordViewModel.isValidEmail()
+                    !emailAndPasswordViewModel.isValidEmail(
+                        email: emailAndPasswordViewModel.email
+                    )
                 {
                     Text("Invalid email address")
                         .foregroundStyle(.red)
@@ -123,7 +124,7 @@ struct EmailAndPasswordView: View {
     }
 
     //FIXME: Password View
-    fileprivate func PasswordView(
+    fileprivate func passwordView(
         _ emailAndPasswordEnumType: EmailAndPasswordEnumType,
         bindingType: Binding<String>,
         type: String
@@ -169,33 +170,45 @@ struct EmailAndPasswordView: View {
                     { _, _ in
                         emailAndPasswordViewModel
                             .shouldDisplayInvalidEmailOrPasswordWarningMessages =
-                            emailAndPasswordViewModel.isSignUpScreen
-                            ? true : false
+                            emailAndPasswordViewModel.isSignInScreen
+                            ? false : true
                     }
                 )
+
+                //MARK: Password Error Message Field
+                if emailAndPasswordEnumType == .password {
+                    passwordErrorView()
+                } else {
+                    confirmPasswordErrorView()
+                }
             }
             .padding(.bottom, 10)
     }
 
     //MARK: Password Error View
-    fileprivate func PasswordErrorView() -> some View {
+    fileprivate func passwordErrorView() -> some View {
         return
-            VStack(alignment: .leading) {
-                if emailAndPasswordViewModel.isSignUpScreen,
+            Group {
+                if !emailAndPasswordViewModel.isSignInScreen,
                     !emailAndPasswordViewModel.password.isEmpty,
-                    !emailAndPasswordViewModel.isValidPassword()
+                    !emailAndPasswordViewModel.isValidPassword(
+                        password: emailAndPasswordViewModel.password
+                    )
                 {
                     Text(
-                        "Password must contain 8 characters, uppercase, lowercase, number and special character"
+                        "⚠️ Password must contain 8 characters, uppercase, lowercase, number and special character"
                     )
                     .foregroundStyle(.red)
                     .font(.caption)
-                } else if !emailAndPasswordViewModel.isSignUpScreen,
+                } else if emailAndPasswordViewModel.isSignInScreen,
                     emailAndPasswordViewModel
                         .shouldDisplayInvalidEmailOrPasswordWarningMessages,
                     !emailAndPasswordViewModel.email.isEmpty,
                     !emailAndPasswordViewModel.password.isEmpty,
-                    !emailAndPasswordViewModel.isValidEmailAndPassword()
+                    !emailAndPasswordViewModel.isValidEmailAndPassword(
+                        email: emailAndPasswordViewModel.email,
+                        password: emailAndPasswordViewModel.password
+                    )
                 {
                     Text("Invalid username or password")
                         .foregroundStyle(.red)
@@ -205,16 +218,36 @@ struct EmailAndPasswordView: View {
     }
 
     //MARK: Confirm Password View
-    fileprivate func ConfirmPasswordView(
+    fileprivate func confirmPasswordView(
         _ emailAndPasswordEnumType: EmailAndPasswordEnumType,
         bindingType: Binding<String>,
         type: String
     ) -> some View {
-        return PasswordView(
+        return passwordView(
             .confirmPassword,
             bindingType: bindingType,
             type: type
         )
+    }
+
+    fileprivate func confirmPasswordErrorView() -> some View {
+        return
+            Group {
+                if !emailAndPasswordViewModel.isSignInScreen,
+                    !emailAndPasswordViewModel.confirmPassword.isEmpty,
+                    emailAndPasswordViewModel.passwordsDoNotMatch(
+                        password: emailAndPasswordViewModel.password,
+                        confirmPassword: emailAndPasswordViewModel
+                            .confirmPassword
+                    )
+                {
+                    Text(
+                        "⚠️ Passwords do not match"
+                    )
+                    .foregroundStyle(.red)
+                    .font(.caption)
+                }
+            }
     }
 
     //MARK: Toggle Switch View
@@ -235,7 +268,7 @@ struct EmailAndPasswordView: View {
 
     //MARK: LogIn/SignUp Button View
 
-    fileprivate func LogInSignUpButtonView() -> some View {
+    fileprivate func logInSignUpButtonView() -> some View {
         return
             Button {
                 emailAndPasswordViewModel.performAction {
@@ -247,23 +280,24 @@ struct EmailAndPasswordView: View {
                 }
             } label: {
                 Text(
-                    emailAndPasswordViewModel.isSignUpScreen
-                        ? "Sign Up" : "Login"
+                    emailAndPasswordViewModel.isSignInScreen
+                        ? "Login" : "Sign Up"
                 )
                 .font(.default.bold())
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(.white)
             }
-            .fullScreenCover(
-                isPresented: $emailAndPasswordViewModel.isAuthenticated,
-                content: {
-                    MainView()
-                }
-            )
             .disabled(
-                emailAndPasswordViewModel.isSignUpScreen
-                    && !emailAndPasswordViewModel.isValidEmail()
-                    && !emailAndPasswordViewModel.isValidPassword()
+                !emailAndPasswordViewModel.isSignInScreen
+                    && (!emailAndPasswordViewModel.isValidEmailAndPassword(
+                        email: emailAndPasswordViewModel.email,
+                        password: emailAndPasswordViewModel.password
+                    )
+                    || emailAndPasswordViewModel.passwordsDoNotMatch(
+                        password: emailAndPasswordViewModel.password,
+                        confirmPassword: emailAndPasswordViewModel
+                            .confirmPassword
+                    ))
             )
             .buttonStyle(.borderedProminent)
     }
@@ -274,56 +308,35 @@ struct EmailAndPasswordView: View {
         return
             HStack {
                 Text(
-                    emailAndPasswordViewModel.isSignUpScreen
-                        ? "Go back to" : "Don't have an account?"
+                    emailAndPasswordViewModel.isSignInScreen
+                        ? "Don't have an account?" : "Go back to"
                 )
                 Text(
-                    emailAndPasswordViewModel.isSignUpScreen
-                        ? "Sign in" : "Sign Up"
+                    emailAndPasswordViewModel.isSignInScreen
+                        ? "Sign Up" : "Sign in"
                 )
                 .foregroundStyle(.blue)
                 .underline()
                 .onTapGesture {
-                    if !emailAndPasswordViewModel.isSignUpScreen {
-                        emailAndPasswordViewModel.shouldDisplaySignUpScreen.toggle()
+                    if emailAndPasswordViewModel.isSignInScreen {
+                        emailAndPasswordViewModel.signInDelegate?
+                            .shouldDisplaySignUpScreenToggle()
                     } else {
-                        emailAndPasswordViewModel.signUpDelegate?.shouldDisplaySignUpScreen.toggle()
-                        print(emailAndPasswordViewModel.signUpDelegate?.shouldDisplaySignUpScreen)
+                        emailAndPasswordViewModel.signUpDelegate?
+                            .shouldDisplaySignUpScreenToggle()
                     }
-//                    switch emailAndPasswordViewModel.isSignUpScreen {
-//                    case true:
-//                        print("Before: \(emailAndPasswordViewModel.signUpDelegate?.shouldDisplaySignUpScreen)")
-//                        emailAndPasswordViewModel.signUpDelegate?.shouldDisplaySignUpScreen.toggle()
-//                        print("After: \(emailAndPasswordViewModel.signUpDelegate?.shouldDisplaySignUpScreen)")
-//                    case false:
-//                    }
-
                 }
 
-                //                    emailAndPasswordViewModel.isSignUpScreen
-                //                        ? "Go back to [Sign in](myappurl://action)"
-                //                        : "Don't have an account? [Sign Up](myappurl://action)"
-                //                )
             }
             .tint(.primary)
             .frame(maxWidth: .infinity, alignment: .center)
-            .fullScreenCover(
-                isPresented: $emailAndPasswordViewModel
-                    .shouldDisplaySignUpScreen
-            ) {
-//                switch emailAndPasswordViewModel.shouldNavigateToSignUpScreen {
-//                case true:
-                    SignUpView()
-//                case false:
-//                }
-            }
     }
 }
 
 #Preview {
     EmailAndPasswordView(
         emailAndPasswordViewModel: EmailAndPasswordViewModel(
-            isSignUpScreen: false
+            isSignInScreen: true
         )
     )
 }
