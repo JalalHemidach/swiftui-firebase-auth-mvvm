@@ -8,8 +8,27 @@
 import Foundation
 import FirebaseAuth
 
+//MARK: SignIn Protocol
+protocol SignInProtocol {
+    func signIn(email: String, password: String, Completion: @escaping () -> Void)
+    func shouldDisplaySignUpScreenToggle()
+}
+
+//MARK: SignUp Protocol
+protocol SignUpProtocol {
+    func signUp(email: String, password: String, Completion: @escaping () -> Void)
+    func shouldDisplaySignUpScreenToggle()
+}
+
+//MARK: Sign-Out Protocol
+protocol SignOutProtocol {
+    func signOut()
+}
+
+//MARK: Class
 @Observable
-class AuthenticationViewModel: SignInProtocol {
+class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
+    //MARK: Properties
     var emailAndPasswordViewModel: EmailAndPasswordViewModel
     var user: User?
     
@@ -28,11 +47,23 @@ class AuthenticationViewModel: SignInProtocol {
         }
     }
     var isAuthenticated: Bool = false
+    
+    //FIXME: Set - Displays Confirm Password on Authentication View
+    var shouldDisplaySignUpScreen: Bool = false
+//    {
+//        get {
+//            return !emailAndPasswordViewModel.isSignInScreen
+//        }
+//        set {
+//            emailAndPasswordViewModel.isSignInScreen = !newValue
+//        }
+//    }
     private var authStateHandle: AuthStateDidChangeListenerHandle?
     
     
+    //MARK: init
     init() {
-        emailAndPasswordViewModel = EmailAndPasswordViewModel(isSignUpScreen: false)
+        emailAndPasswordViewModel = EmailAndPasswordViewModel(isSignInScreen: true)
         emailAndPasswordViewModel.signInDelegate = self
         authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
           DispatchQueue.main.async {
@@ -41,8 +72,12 @@ class AuthenticationViewModel: SignInProtocol {
             }
         }
     }
-        
-        func signIn(email: String, password: String, Completion: @escaping () -> Void) {
+    
+    //MARK: Sign-In
+    func signIn(email: String, password: String, Completion: @escaping () -> Void) {
+        //MARK: email & password validation
+        if emailAndPasswordViewModel.isValidEmailAndPassword(email: email, password: password) {
+            //MARK: Firebase Authentication (SignIn)
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
               if let error = error {
                     print("Error signing in: \(error.localizedDescription)")
@@ -52,13 +87,45 @@ class AuthenticationViewModel: SignInProtocol {
                 Completion()
             }
         }
+    }
     
+    func shouldDisplaySignUpScreenToggle() {
+        shouldDisplaySignUpScreen.toggle()
+    }
+    
+    //MARK: Sign-Up
+    func signUp(email: String, password: String, Completion: @escaping () -> Void) {
+        //FIXME: Passwords Match Validation?
+        if emailAndPasswordViewModel.isValidEmailAndPassword(email: email, password: password) {
+            //MARK: Firebase Create user (SignUp)
+            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                if let error = error {
+                    print("Error signing up: \(error.localizedDescription)")
+                    return
+                }
+                print("Signed up successfully")
+                Completion()
+            }
+        }
+    }
+    
+    //MARK: Sign-Out
+    func signOut() {
+        do {
+            try Auth.auth().signOut()
+        } catch let signOutError as NSError{
+            print("Error signing out: \(signOutError)")
+        }
+    }
+    
+    //MARK: deinit
     deinit {
         if let authStateHandle = authStateHandle {
             Auth.auth().removeStateDidChangeListener(authStateHandle)
         }
     }
     
+    //MARK: Clear email & Password Fields
     func clearEmailAndPasswordFields() {
         emailAndPasswordViewModel.clearEmailAndPasswordFields()
     }

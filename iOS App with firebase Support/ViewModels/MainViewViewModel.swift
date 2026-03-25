@@ -6,16 +6,14 @@
 //
 
 import Foundation
-import FirebaseAuth
 
 @Observable
-class MainViewViewModel: EmailAndPasswordValidationViewModel {
-    
+class MainViewViewModel {
+    //MARK: Delegates
+    var signOutDelegate: SignOutProtocol?
+
+    //MARK: Sign-Out
     func signOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch let signOutError as NSError{
-            print("Error signing out: \(signOutError)")
-        }
+        signOutDelegate?.signOut()
     }
 }

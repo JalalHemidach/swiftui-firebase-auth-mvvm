@@ -43,10 +43,10 @@ struct AuthenticationView: View {
             Spacer()
 
             //MARK: SignIn With Apple Button
-            SignInWithApple()
+            SignInWithAppleView()
 
             //MARK: SignIn With Google Button
-            SignInWithGoogle()
+            SignInWithGoogleView()
             
             //MARK: Horizontal (- OR -) Separator
             horizontalSeparatorView()
@@ -61,6 +61,15 @@ struct AuthenticationView: View {
             Spacer()
         }
         .padding()
+        .fullScreenCover(isPresented: $authenticationViewModel.isAuthenticated, content: {
+            MainView(signOutDelegate: authenticationViewModel.self)
+        })
+//        .fullScreenCover(isPresented: $authenticationViewModel.shouldDisplaySignUpScreen) {
+//            SignUpView(signUpDelegate: authenticationViewModel.self)
+//        }
+        .sheet(isPresented: $authenticationViewModel.shouldDisplaySignUpScreen) {
+            SignUpView(signUpDelegate: authenticationViewModel.self)
+        }
     }
 
     fileprivate func horizontalSeparatorView() -> some View {

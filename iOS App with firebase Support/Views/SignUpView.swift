@@ -11,14 +11,16 @@ struct SignUpView: View {
     //MARK: @State
     @State private var signUpViewModel = SignUpViewModel()
     
+    
+    init(signUpDelegate: SignUpProtocol) {
+        signUpViewModel.signUpDelegate = signUpDelegate
+    }
+    
     var body: some View {
         VStack(alignment: .leading) {
             //MARK: First Name
-            HStack {
-                Label("First Name", systemImage: "person.text.rectangle")
-                    .foregroundColor(.primary)
-            }
-            TextField("First Name", text: $signUpViewModel.firstName)
+            Label("First Name", systemImage: "person.text.rectangle")
+            TextField("First Name (Optional)", text: $signUpViewModel.firstName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
             //MARK: Last Name
@@ -26,12 +28,13 @@ struct SignUpView: View {
             TextField("Last Name (Optional)", text: $signUpViewModel.lastName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
-            //MARK: Email & Password View`
+            //MARK: Email & Password View
             EmailAndPasswordView(emailAndPasswordViewModel: signUpViewModel.emailAndPasswordViewModel)
         }
+        .padding()
     }
 }
 
 #Preview {
-    SignUpView()
+    SignUpView(signUpDelegate: SignUpViewModel().signUpDelegate!)
 }
