@@ -9,7 +9,7 @@ import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
 
-struct SignInWithGoogle: View {
+struct SignInWithGoogleView: View {
     
     var body: some View {
         //MARK: SignIn With Google Button

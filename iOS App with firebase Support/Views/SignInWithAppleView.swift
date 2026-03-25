@@ -8,7 +8,7 @@
 import SwiftUI
 import AuthenticationServices
 
-struct SignInWithApple: View {
+struct SignInWithAppleView: View {
     
     var body: some View {
         //MARK: SignIn With Apple Button
@@ -34,5 +34,5 @@ struct SignInWithApple: View {
 }
 
 #Preview {
-    SignInWithApple()
+    SignInWithAppleView()
 }
