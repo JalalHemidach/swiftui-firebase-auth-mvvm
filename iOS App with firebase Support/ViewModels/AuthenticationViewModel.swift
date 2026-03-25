@@ -71,9 +71,11 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
             //MARK: Firebase Authentication (SignIn)
             Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
               if let error = error {
-                    print("Error signing in: \(error.localizedDescription)")
-                    return
+                  self.emailAndPasswordViewModel.shouldDisplayInvalidEmailOrPasswordWarningMessages = true
+                  print("Error signing in: \(error.localizedDescription)")
+                  return
                 }
+                self.emailAndPasswordViewModel.shouldDisplayInvalidEmailOrPasswordWarningMessages = false
                 print("Signed in successfully")
                 Completion()
             }

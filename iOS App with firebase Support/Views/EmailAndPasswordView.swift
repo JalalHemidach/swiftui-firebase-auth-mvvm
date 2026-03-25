@@ -202,15 +202,9 @@ struct EmailAndPasswordView: View {
                     .font(.caption)
                 } else if emailAndPasswordViewModel.isSignInScreen,
                     emailAndPasswordViewModel
-                        .shouldDisplayInvalidEmailOrPasswordWarningMessages,
-                    !emailAndPasswordViewModel.email.isEmpty,
-                    !emailAndPasswordViewModel.password.isEmpty,
-                    !emailAndPasswordViewModel.isValidEmailAndPassword(
-                        email: emailAndPasswordViewModel.email,
-                        password: emailAndPasswordViewModel.password
-                    )
+                        .shouldDisplayInvalidEmailOrPasswordWarningMessages
                 {
-                    Text("Invalid username or password")
+                    Text("⚠️ Invalid username or password")
                         .foregroundStyle(.red)
                         .font(.caption)
                 }
