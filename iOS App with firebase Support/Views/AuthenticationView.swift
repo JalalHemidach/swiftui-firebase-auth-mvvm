@@ -64,9 +64,6 @@ struct AuthenticationView: View {
         .fullScreenCover(isPresented: $authenticationViewModel.isAuthenticated, content: {
             MainView(signOutDelegate: authenticationViewModel.self)
         })
-//        .fullScreenCover(isPresented: $authenticationViewModel.shouldDisplaySignUpScreen) {
-//            SignUpView(signUpDelegate: authenticationViewModel.self)
-//        }
         .sheet(isPresented: $authenticationViewModel.shouldDisplaySignUpScreen) {
             SignUpView(signUpDelegate: authenticationViewModel.self)
         }

@@ -50,16 +50,7 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     
     //FIXME: Set - Displays Confirm Password on Authentication View
     var shouldDisplaySignUpScreen: Bool = false
-//    {
-//        get {
-//            return !emailAndPasswordViewModel.isSignInScreen
-//        }
-//        set {
-//            emailAndPasswordViewModel.isSignInScreen = !newValue
-//        }
-//    }
     private var authStateHandle: AuthStateDidChangeListenerHandle?
-    
     
     //MARK: init
     init() {
