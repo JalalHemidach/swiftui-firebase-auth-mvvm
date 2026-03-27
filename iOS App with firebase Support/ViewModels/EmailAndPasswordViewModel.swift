@@ -60,16 +60,16 @@ class EmailAndPasswordViewModel {
     }
     
     //MARK: Perform Action
-    func performAction(Completion: @escaping () -> Void) {
+    func performAction(completion: @escaping () -> Void) {
         switch isSignInScreen {
             case true:
-            signInDelegate?.signIn(email: email, password: password, Completion: {
-                Completion()
+            signInDelegate?.signIn(email: email, password: password, completion: {
+                completion()
             })
             case false:
-            signUpDelegate?.signUp(email: email, password: password, Completion: {
                 self.signUpDelegate?.shouldDisplaySignUpScreenToggle()
-                Completion()
+            signUpDelegate?.signUp(email: email, password: password, completion: {
+                completion()
             })
         }
     }

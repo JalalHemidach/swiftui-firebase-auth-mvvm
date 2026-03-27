@@ -25,9 +25,9 @@ class SignUpViewModel: SignUpProtocol {
     }
     
     //MARK: SignUp
-    func signUp(email: String, password: String, Completion: @escaping () -> Void) {
+    func signUp(email: String, password: String, completion: @escaping () -> Void) {
         signUpDelegate?.signUp(email: email, password: password) {
-            Completion()
+            completion()
         }
     }
     

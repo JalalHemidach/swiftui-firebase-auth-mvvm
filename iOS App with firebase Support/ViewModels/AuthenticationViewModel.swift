@@ -10,13 +10,13 @@ import FirebaseAuth
 
 //MARK: SignIn Protocol
 protocol SignInProtocol {
-    func signIn(email: String, password: String, Completion: @escaping () -> Void)
+    func signIn(email: String, password: String, completion: @escaping () -> Void)
     func shouldDisplaySignUpScreenToggle()
 }
 
 //MARK: SignUp Protocol
 protocol SignUpProtocol {
-    func signUp(email: String, password: String, Completion: @escaping () -> Void)
+    func signUp(email: String, password: String, completion: @escaping () -> Void)
     func shouldDisplaySignUpScreenToggle()
 }
 
@@ -65,7 +65,7 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     }
     
     //MARK: Sign-In
-    func signIn(email: String, password: String, Completion: @escaping () -> Void) {
+    func signIn(email: String, password: String, completion: @escaping () -> Void) {
         //MARK: email & password validation
         if emailAndPasswordViewModel.isValidEmailAndPassword(email: email, password: password) {
             //MARK: Firebase Authentication (SignIn)
@@ -77,7 +77,7 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
                 }
                 self.emailAndPasswordViewModel.shouldDisplayInvalidEmailOrPasswordWarningMessages = false
                 print("Signed in successfully")
-                Completion()
+                completion()
             }
         }
     }
@@ -87,8 +87,8 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     }
     
     //MARK: Sign-Up
-    func signUp(email: String, password: String, Completion: @escaping () -> Void) {
         //FIXME: Passwords Match Validation?
+    func signUp(email: String, password: String, completion: @escaping () -> Void) {
         if emailAndPasswordViewModel.isValidEmailAndPassword(email: email, password: password) {
             //MARK: Firebase Create user (SignUp)
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
@@ -97,7 +97,7 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
                     return
                 }
                 print("Signed up successfully")
-                Completion()
+                completion()
             }
         }
     }
