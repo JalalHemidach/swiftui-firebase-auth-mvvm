@@ -10,7 +10,7 @@ import Foundation
 @Observable
 class MainViewViewModel {
     //MARK: Delegates
-    var signOutDelegate: SignOutProtocol?
+    weak var signOutDelegate: SignOutProtocol?
 
     //MARK: Sign-Out
     func signOut() {

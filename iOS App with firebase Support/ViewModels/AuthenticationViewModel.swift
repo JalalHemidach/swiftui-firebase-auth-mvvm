@@ -7,21 +7,22 @@
 
 import Foundation
 import FirebaseAuth
+import Observation
 
 //MARK: SignIn Protocol
-protocol SignInProtocol {
+protocol SignInProtocol: AnyObject {
     func signIn(email: String, password: String, completion: @escaping () -> Void)
     func shouldDisplaySignUpScreenToggle()
 }
 
 //MARK: SignUp Protocol
-protocol SignUpProtocol {
+protocol SignUpProtocol: AnyObject {
     func signUp(email: String, password: String, completion: @escaping () -> Void)
     func shouldDisplaySignUpScreenToggle()
 }
 
 //MARK: Sign-Out Protocol
-protocol SignOutProtocol {
+protocol SignOutProtocol: AnyObject {
     func signOut()
 }
 
@@ -49,6 +50,9 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     
     var shouldDisplaySignUpScreen: Bool = false
     private var authStateHandle: AuthStateDidChangeListenerHandle?
+    
+    //MARK: Delegates
+    weak var signUpDelegate: SignUpProtocol?
     
     //MARK: init
     init() {

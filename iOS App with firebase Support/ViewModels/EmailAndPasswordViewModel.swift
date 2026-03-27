@@ -20,8 +20,8 @@ class EmailAndPasswordViewModel {
     var isSignInScreen: Bool
     
     //MARK: Delegates
-    var signInDelegate: SignInProtocol?
-    var signUpDelegate: SignUpProtocol?
+    weak var signInDelegate: SignInProtocol?
+    weak var signUpDelegate: SignUpProtocol?
     
     //MARK: init
     init(isSignInScreen: Bool) {

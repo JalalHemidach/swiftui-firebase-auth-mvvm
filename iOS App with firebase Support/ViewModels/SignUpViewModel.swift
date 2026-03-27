@@ -16,7 +16,7 @@ class SignUpViewModel: SignUpProtocol {
     var confirmPassword = ""
     
     //MARK: Delegates
-    var signUpDelegate: SignUpProtocol?
+    weak var signUpDelegate: SignUpProtocol?
     
     //MARK: init
     init() {
