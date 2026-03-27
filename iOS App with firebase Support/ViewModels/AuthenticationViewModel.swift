@@ -31,7 +31,6 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     //MARK: Properties
     var emailAndPasswordViewModel: EmailAndPasswordViewModel
     var user: User?
-    
     var email: String {
         get {
             return emailAndPasswordViewModel.email
@@ -48,7 +47,6 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     }
     var isAuthenticated: Bool = false
     
-    //FIXME: Set - Displays Confirm Password on Authentication View
     var shouldDisplaySignUpScreen: Bool = false
     private var authStateHandle: AuthStateDidChangeListenerHandle?
     
@@ -87,7 +85,6 @@ class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     }
     
     //MARK: Sign-Up
-        //FIXME: Passwords Match Validation?
     func signUp(email: String, password: String, completion: @escaping () -> Void) {
         if emailAndPasswordViewModel.isValidEmailAndPassword(email: email, password: password) {
             //MARK: Firebase Create user (SignUp)

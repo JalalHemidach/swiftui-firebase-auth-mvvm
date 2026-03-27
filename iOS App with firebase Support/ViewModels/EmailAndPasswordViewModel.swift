@@ -44,15 +44,6 @@ class EmailAndPasswordViewModel {
     func isValidEmailAndPassword(email: String, password: String) -> Bool {
         return isValidEmail(email: email) && isValidPassword(password: password)
     }
-                
-    //MARK: Email & Password Validation
-//    func isValidEmailAndPassword(email: String, password: String) {
-//        guard isValidEmailAndPassword(email: email, password: password) else {
-//            shouldDisplayInvalidEmailOrPasswordWarningMessages = true
-//            return
-//        }
-//        shouldDisplayInvalidEmailOrPasswordWarningMessages = false
-//    }
     
     //MARK: Passwords Do NOT Match
     func passwordsDoNotMatch(password: String, confirmPassword: String) -> Bool {
@@ -75,7 +66,6 @@ class EmailAndPasswordViewModel {
     }
     
     //MARK: Clear Email & Password
-    
     func clearEmailAndPasswordFields() {
         self.email = ""
         self.password = ""

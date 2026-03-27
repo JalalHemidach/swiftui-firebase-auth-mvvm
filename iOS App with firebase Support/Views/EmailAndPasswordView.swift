@@ -31,7 +31,6 @@ struct EmailAndPasswordView: View {
     //    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        //        NavigationStack {
         VStack(alignment: .leading) {
             //MARK: Email Field
             emailView(.email)
@@ -64,7 +63,6 @@ struct EmailAndPasswordView: View {
             goToSignUpOrBackToLogInView()
         }
         .foregroundStyle(.primary)
-        //        }
     }
 
     //MARK: Email View
