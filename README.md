@@ -136,9 +136,13 @@ Add the GoogleService-Info.plist file to the project root.
 Installation
 
 Clone repository:
-git clone https://github.com/jalalhemidach/swiftui-firebase-auth-mvvm.git
+
+git clone: https://github.com/jalalhemidach/swiftui-firebase-auth-mvvm.git
+
 Open project:
-open swiftui-firebase-auth-mvvm.xcodeproj
+
+open: swiftui-firebase-auth-mvvm.xcodeproj
+
 Install dependencies and run.
 
 ⸻
