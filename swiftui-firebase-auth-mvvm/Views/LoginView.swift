@@ -1,5 +1,5 @@
 //
-//  AuthenticationView.swift
+//  LoginView.swift
 //  swiftui-firebase-auth-mvvm
 //
 //  Created by Jalal Hemidach on 3/14/26.
@@ -12,7 +12,7 @@ let kFirebaseColor: Color = Color(
     green: 130 / 255,
     blue: 13 / 255
 )
-struct AuthenticationView: View {
+struct LoginView: View {
     @State private var authenticationViewModel = AuthenticationViewModel()
 
     var body: some View {
@@ -82,5 +82,5 @@ struct AuthenticationView: View {
 }
 
 #Preview {
-    AuthenticationView()
+    LoginView()
 }

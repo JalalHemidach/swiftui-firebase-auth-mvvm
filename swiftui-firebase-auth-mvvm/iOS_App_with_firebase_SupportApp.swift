@@ -23,7 +23,7 @@ struct iOS_App_with_firebase_SupportApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {
-            AuthenticationView()
+            LoginView()
         }
     }
 }
