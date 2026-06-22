@@ -1,6 +1,6 @@
 //
 //  MainViewViewModel.swift
-//  iOS App with firebase Support
+//  swiftui-firebase-auth-mvvm
 //
 //  Created by Jalal Hemidach on 3/14/26.
 //
