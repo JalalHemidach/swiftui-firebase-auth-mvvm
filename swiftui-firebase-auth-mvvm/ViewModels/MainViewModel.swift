@@ -1,5 +1,5 @@
 //
-//  MainViewViewModel.swift
+//  MainViewModel.swift
 //  swiftui-firebase-auth-mvvm
 //
 //  Created by Jalal Hemidach on 3/14/26.
@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class MainViewViewModel {
+class MainViewModel {
     //MARK: Delegates
     weak var signOutDelegate: SignOutProtocol?
 

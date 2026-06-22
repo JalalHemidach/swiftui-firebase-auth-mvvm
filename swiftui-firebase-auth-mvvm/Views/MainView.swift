@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    @State private var mainViewViewModel = MainViewViewModel()
+    @State private var mainViewModel = MainViewModel()
     
     //MARK: init
     init(signOutDelegate: SignOutProtocol) {
-        mainViewViewModel.signOutDelegate = signOutDelegate
+        mainViewModel.signOutDelegate = signOutDelegate
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct MainView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        mainViewViewModel.signOut()
+                        mainViewModel.signOut()
                     } label: {
                         Image(systemName: "rectangle.righthalf.inset.filled.arrow.right")
                     }
@@ -35,5 +35,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(signOutDelegate: MainViewViewModel().signOutDelegate!)
+    MainView(signOutDelegate: MainViewModel().signOutDelegate!)
 }
