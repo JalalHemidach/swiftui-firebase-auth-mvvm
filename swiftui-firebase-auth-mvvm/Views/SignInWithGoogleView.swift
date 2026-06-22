@@ -19,3 +19,7 @@ struct SignInWithGoogleView: View {
         .frame(maxWidth: .infinity, maxHeight: 50)
     }
 }
+
+#Preview {
+    SignInWithGoogleView()
+}
