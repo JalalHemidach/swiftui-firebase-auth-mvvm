@@ -13,7 +13,7 @@ let kFirebaseColor: Color = Color(
     blue: 13 / 255
 )
 struct LoginView: View {
-    @State private var authenticationViewModel = AuthenticationViewModel()
+    @State private var loginViewModel = LoginViewModel()
 
     var body: some View {
         VStack {
@@ -53,7 +53,7 @@ struct LoginView: View {
 
             //MARK: Email & Password View
             EmailAndPasswordView(
-                emailAndPasswordViewModel: authenticationViewModel
+                emailAndPasswordViewModel: loginViewModel
                     .emailAndPasswordViewModel
             )
 
@@ -61,11 +61,11 @@ struct LoginView: View {
             Spacer()
         }
         .padding()
-        .fullScreenCover(isPresented: $authenticationViewModel.isAuthenticated, content: {
-            MainView(signOutDelegate: authenticationViewModel.self)
+        .fullScreenCover(isPresented: $loginViewModel.isAuthenticated, content: {
+            MainView(signOutDelegate: loginViewModel.self)
         })
-        .sheet(isPresented: $authenticationViewModel.shouldDisplaySignUpScreen) {
-            SignUpView(signUpDelegate: authenticationViewModel.self)
+        .sheet(isPresented: $loginViewModel.shouldDisplaySignUpScreen) {
+            SignUpView(signUpDelegate: loginViewModel.self)
         }
     }
 

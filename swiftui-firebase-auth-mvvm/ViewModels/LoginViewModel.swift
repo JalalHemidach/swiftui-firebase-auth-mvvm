@@ -1,5 +1,5 @@
 //
-//  AuthenticationViewModel.swift
+//  LoginViewModel.swift
 //  swiftui-firebase-auth-mvvm
 //
 //  Created by Jalal Hemidach on 3/14/26.
@@ -30,7 +30,7 @@ protocol SignOutProtocol: AnyObject {
 
 //MARK: Class
 @Observable
-class AuthenticationViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
+class LoginViewModel: SignInProtocol, SignUpProtocol, SignOutProtocol {
     //MARK: Properties
     var user: User?
     var emailAndPasswordViewModel: EmailAndPasswordViewModel

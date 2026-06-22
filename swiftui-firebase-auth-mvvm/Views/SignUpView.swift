@@ -14,8 +14,8 @@ struct SignUpView: View {
     
     init(signUpDelegate: SignUpProtocol) {
         signUpViewModel.signUpDelegate = signUpDelegate
-        if let authenticationViewModel = signUpDelegate as? AuthenticationViewModel {
-            authenticationViewModel.signUpDelegate = signUpViewModel
+        if let loginViewModel = signUpDelegate as? LoginViewModel {
+            loginViewModel.signUpDelegate = signUpViewModel
         }
     }
     
