@@ -32,10 +32,12 @@ Responsible for rendering UI and forwarding user interactions to the ViewModel.
 
 Examples:
 
+* EmailAndPasswordView
 * LoginView
-* RegistrationView
 * ProfileView
-* ContentView
+* SignInWithAppleView
+* SignInWithGoogleView
+* SignUpView
 
 ViewModel
 
@@ -50,9 +52,10 @@ Responsibilities:
 
 Examples:
 
-* AuthViewModel
+* EmailAndPasswordViewModel
 * LoginViewModel
-* RegistrationViewModel
+* ProfileViewModel
+* SignUpViewModel
 
 Model
 
