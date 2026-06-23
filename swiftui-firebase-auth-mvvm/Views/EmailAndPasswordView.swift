@@ -237,9 +237,9 @@ struct EmailAndPasswordView: View {
     fileprivate func ToggleSwitchView() -> some View {
         return
             HStack {
-                Spacer(minLength: 150)
+                Spacer(minLength: 180)
                 Toggle(
-                    "Save email & password:",
+                    "Keep Me Signed In:",
                     isOn: $emailAndPasswordViewModel
                         .isEmailAndPasswordToggleChecked
                 )
