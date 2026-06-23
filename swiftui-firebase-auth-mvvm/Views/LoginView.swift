@@ -62,7 +62,7 @@ struct LoginView: View {
         }
         .padding()
         .fullScreenCover(isPresented: $loginViewModel.isAuthenticated, content: {
-            MainView(signOutDelegate: loginViewModel.self)
+            ProfileView(signOutDelegate: loginViewModel.self)
         })
         .sheet(isPresented: $loginViewModel.shouldDisplaySignUpScreen) {
             SignUpView(signUpDelegate: loginViewModel.self)

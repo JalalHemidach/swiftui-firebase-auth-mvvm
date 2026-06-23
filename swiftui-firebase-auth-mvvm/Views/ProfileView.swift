@@ -1,5 +1,5 @@
 //
-//  MainView.swift
+//  ProfileView.swift
 //  swiftui-firebase-auth-mvvm
 //
 //  Created by Jalal Hemidach on 3/14/26.
@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-struct MainView: View {
-    @State private var mainViewModel = MainViewModel()
+struct ProfileView: View {
+    @State private var profileViewModel = ProfileViewModel()
     
     //MARK: init
     init(signOutDelegate: SignOutProtocol) {
-        mainViewModel.signOutDelegate = signOutDelegate
+        profileViewModel.signOutDelegate = signOutDelegate
     }
     
     var body: some View {
@@ -24,7 +24,7 @@ struct MainView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
-                        mainViewModel.signOut()
+                        profileViewModel.signOut()
                     } label: {
                         Image(systemName: "rectangle.righthalf.inset.filled.arrow.right")
                     }
@@ -35,5 +35,5 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(signOutDelegate: MainViewModel().signOutDelegate!)
+    ProfileView(signOutDelegate: ProfileViewModel().signOutDelegate!)
 }
