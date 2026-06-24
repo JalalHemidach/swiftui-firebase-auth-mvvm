@@ -6,6 +6,13 @@ This project demonstrates a clean and scalable authentication flow for modern iO
 
 ---
 
+## Architecture Diagram
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/a8385236-5165-49fc-b527-23848b89a630" />
+
+
+---
+
 ## Features
 
 - Email & Password Sign Up
@@ -23,8 +30,6 @@ This project demonstrates a clean and scalable authentication flow for modern iO
 ## Architecture
 
 This project follows the **Model-View-ViewModel (MVVM)** architecture.
-
-### Layers
 
 ### View
 Responsible for rendering UI and forwarding user interactions to the ViewModel.
@@ -44,7 +49,7 @@ Contains presentation logic, state management, validation, and business rules.
 - Manage authentication state
 - Validate input
 - Handle loading/error states
-- Communicate with services
+- Communicate with Firebase Authentication
 
 **Examples:**
 - EmailAndPasswordViewModel
@@ -59,12 +64,13 @@ Represents domain and application data.
 - User
 - AuthState
 
-### Service Layer
-Handles communication with external systems such as Firebase.
+### Firebase Integration
+ViewModels currently interact directly with **Firebase Authentication** to handle:
 
-**Examples:**
-- AuthService
-- FirebaseManager
+- User registration
+- Login / Logout
+- Session persistence
+- Phone authentication
 
 ---
 
@@ -89,11 +95,10 @@ swiftui-firebase-auth-mvvm/
 │   ├── Authentication/
 │   ├── Components/
 │   └── Profile/
-├── ViewModels/
-├── Services/
-├── Utilities/
-└── Resources/
+└── ViewModels/
+
 ```
+
 ---
 
 ## Authentication Flow
