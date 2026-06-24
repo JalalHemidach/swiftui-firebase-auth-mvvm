@@ -135,6 +135,7 @@ Clone repository:
 ```bash
 git clone https://github.com/jalalhemidach/swiftui-firebase-auth-mvvm.git
 ```
+
 Open project:
 
 ```bash
